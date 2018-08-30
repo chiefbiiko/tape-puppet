@@ -29,11 +29,10 @@ TapePuppetStream.prototype._flush = async function (end) {
     end()
   })
 
-  // page.on('console', msg => self.emit('data', `${msg._text}\n`))
   page.on('console', msg => self.push(`${msg._text}\n`))
 
   pump(self, finisher, err => {
-    if (err) return self.emit('error', err)
+    if (err) return end(err)
   })
 
   await page.evaluate(`;(async()=>{${this._accu}})();`)
