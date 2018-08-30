@@ -1,0 +1,34 @@
+{
+  "name": "tape-puppet",
+  "version": "0.0.0",
+  "description": "duplex stream runs browserified tape tests with puppeteer",
+  "main": "index.js",
+  "scripts": {
+    "test": "browserify ./test.js | node ./cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chiefbiiko/tape-puppet.git"
+  },
+  "keywords": [
+    "tape",
+    "browser",
+    "puppeteer",
+    "test"
+  ],
+  "author": "Noah Anabiik Schwarz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chiefbiiko/tape-puppet/issues"
+  },
+  "homepage": "https://github.com/chiefbiiko/tape-puppet#readme",
+  "dependencies": {
+    "puppeteer": "^1.7.0",
+    "tap-finished": "0.0.1"
+  },
+  "devDependencies": {
+    "browserify": "^16.2.2",
+    "debug": "^3.1.0",
+    "tape": "^4.9.1"
+  }
+}
