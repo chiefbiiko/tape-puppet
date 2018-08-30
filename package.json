@@ -1,6 +1,6 @@
 {
   "name": "tape-puppet",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "duplex stream that runs browserified tape tests with puppeteer",
   "main": "index.js",
   "bin": {

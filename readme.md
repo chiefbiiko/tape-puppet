@@ -4,7 +4,7 @@
 
 ***
 
-A duplex stream that runs browserified tape tests with puppeteer. Inspired by [`tape-run`](https://github.com/juliangruber/tape-run).
+A test runner for [`browserify`](https://github.com/browserify/browserify)'d [`tape`](https://github.com/substack/tape) tests, using headless [`puppeteer`](https://github.com/GoogleChrome/puppeteer). Inspired by [`tape-run`](https://github.com/juliangruber/tape-run). Dead simple.
 
 ***
 
@@ -30,7 +30,7 @@ npm install --global tape-puppet
 browserify ./test.js | tape-puppet
 ```
 
-> Warning: your tests will hang if there are unhandled errors in any test case.
+Run `tape-puppet -h` for usage instructions.
 
 ***
 
@@ -38,7 +38,7 @@ browserify ./test.js | tape-puppet
 
 ### `stream = new TapePuppetStream([opts])`
 
-Create a new stream. `opts.wait` can be an integer value indicating the timeout for [`tap-finished`](https://github.com/substack/tap-finished).
+Create a new `TapePuppetStream` instance. `opts.wait` can be an integer value indicating the timeout for [`tap-finished`](https://github.com/substack/tap-finished).
 
 ***
 

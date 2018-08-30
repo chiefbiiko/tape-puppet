@@ -24,5 +24,8 @@ const tapePuppetStream = tapePuppet(argv)
   .once('results', results => process.exit(Number(!results.ok)))
 
 pump(process.stdin, tapePuppetStream, process.stdout, err => {
-  if (err) console.error(err)
+  if (err) {
+    console.error(err)
+    process.exit(1)
+  }
 })
