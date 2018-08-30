@@ -5,7 +5,7 @@ tape('a test case', t => {
   t.end()
 })
 
-tape('another test case', t => {
+tape.skip('another test case', t => {
   t.fail('that fails')
   t.end()
 })

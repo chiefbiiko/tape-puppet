@@ -1,6 +1,7 @@
+// const log = require('why-is-node-running') // should be your first require
+
 const { PassThrough, Transform } = require('stream')
 const { inherits } = require('util')
-const { EventEmitter } = require('events')
 const puppeteer = require('puppeteer')
 const finished = require('tap-finished')
 
@@ -25,17 +26,18 @@ TapePuppetStream.prototype._flush = async function (end) {
   const iife = `;(()=>{${this._accu}})();`
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
-  const proxyStream = new PassThrough()
+  // const proxyStream = new PassThrough()
   page.on('console', msg => {
     debug('msg._text::', msg._text)
     self.emit('data', `${msg._text}\n`)
   })
   await page.evaluate(iife)
-  proxyStream.pipe(finished(this._opts, async results => {
+  self.pipe(finished(this._opts, async results => {
     await page.close()
     await browser.close()
     self.emit('results', results)
     end()
+    // setTimeout(log, 100)
   }))
 }
 

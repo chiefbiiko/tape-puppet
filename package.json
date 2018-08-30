@@ -29,6 +29,7 @@
   "devDependencies": {
     "browserify": "^16.2.2",
     "debug": "^3.1.0",
-    "tape": "^4.9.1"
+    "tape": "^4.9.1",
+    "why-is-node-running": "^2.0.2"
   }
 }
