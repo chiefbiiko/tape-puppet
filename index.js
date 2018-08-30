@@ -36,6 +36,7 @@ TapePuppetStream.prototype._flush = async function (end) {
     } catch (err) {
       return end(err)
     }
+
     self.emit('results', results)
     end()
   })
@@ -47,7 +48,7 @@ TapePuppetStream.prototype._flush = async function (end) {
   })
 
   try {
-    await page.evaluate(`;(async()=>{${this._accu}})();`)
+    await page.evaluate(`;(()=>{${this._accu}})();`)
   } catch (err) {
     return end(err)
   }
