@@ -26,19 +26,47 @@ npm install --global tape-puppet
 
 ## Usage
 
+### CLI
+
 ```
 browserify ./test.js | tape-puppet
 ```
 
-Run `tape-puppet -h` for usage instructions.
+Run `tape-puppet -h` for usage instructions:
+
+```
+tape-puppet v0.0.3
+
+A duplex stream that runs browserified tape tests with puppeteer.
+Just pipe a browserify stream into this and consume its TAP output.
+
+Usage:
+
+  browserify [opts] [files] | tape-puppet [opts]
+
+Options:
+
+  -h, --help            print usage instructions
+  -v, --version         print version
+      --headless        run chromium in headless mode; default: true
+      --devtools        open devtools; forces !headless: default: false
+      --slowMo          slow down puppeteer by specified ms; default: 0
+      --wait            timeout for tap-finished in ms, default: 1000
+      --timeout         timeout for chromium launch in ms. default: 30000
+
+Examples:
+
+  browserify ./test.js | tape-puppet
+  browserify ./test.js | tape-puppet > ./test.tap
+```
 
 ***
 
-## API
+### `node`
 
-### `stream = new TapePuppetStream([opts])`
+#### `new TapePuppetStream([opts])`
 
-Create a new `TapePuppetStream` instance. `opts.wait` can be an integer value indicating the timeout for [`tap-finished`](https://github.com/substack/tap-finished).
+Create a new `TapePuppetStream` instance, a transform stream. See above for available options.
 
 ***
 
