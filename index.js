@@ -19,9 +19,16 @@ TapePuppetStream.prototype._transform = function (chunk, _, next) {
 }
 
 TapePuppetStream.prototype._flush = async function (end) {
-  var self = this
-  const browser = await puppeteer.launch()
-  const page = await browser.newPage()
+  const self = this
+
+  var browser, page
+  try {
+    browser = await puppeteer.launch()
+    page = await browser.newPage()
+  } catch (err) {
+    return end(err)
+  }
+
   const finisher = finished(this._opts, async results => {
     try {
       await page.close()

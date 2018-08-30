@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/chiefbiiko/tape-puppet#readme",
   "dependencies": {
+    "optimist": "^0.6.1",
     "pump": "^3.0.0",
     "puppeteer": "^1.7.0",
     "tap-finished": "0.0.1"
