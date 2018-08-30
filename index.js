@@ -7,51 +7,54 @@ const pump = require('pump')
 function TapePuppetStream (opts) {
   if (!(this instanceof TapePuppetStream)) return new TapePuppetStream(opts)
   Transform.call(this)
-  this._opts = Object.assign({}, { wait: 1000 }, opts || {})
+  this._opts = opts || {}
   this._accu = Buffer.alloc(0)
 }
 
 inherits(TapePuppetStream, Transform)
 
-TapePuppetStream.prototype._transform = function (chunk, _, next) {
+TapePuppetStream.prototype._transform = function transform (chunk, _, next) {
   this._accu = Buffer.concat([ this._accu, chunk ])
   next()
 }
 
-TapePuppetStream.prototype._flush = async function (end) {
+TapePuppetStream.prototype._flush = async function flush (end) {
   const self = this
 
-  var browser, page
-  try {
-    browser = await launch()
-    page = await browser.newPage()
-  } catch (err) {
-    return enderr(err)
-  }
-
-  const enderr = async err => {
+  const shutdown = async err => {
     try {
       await browser.close()
-    } catch (_) {}
+    } catch (error) {
+      if (!err) err = error
+    }
     end(err)
   }
 
   const finisher = finished(this._opts, results => {
     self.emit('results', results)
-    enderr()
+    shutdown()
   })
 
+  var browser, page
+  try {
+    browser = await launch(this._opts)
+    page = await browser.newPage()
+  } catch (err) {
+    return shutdown(err)
+  }
+
+  page.on('error', shutdown)
+  page.on('pageerror', shutdown)
   page.on('console', msg => self.push(`${msg._text}\n`))
-  page.on('pageerror', enderr)
 
   pump(self, finisher, err => {
-    if (err) return enderr(err)
+    if (err) return shutdown(err)
   })
 
   try {
-    await page.evaluate(`;(()=>{${this._accu}})();`)
+    await page.evaluate(String(this._accu))
   } catch (err) {
-    return enderrr(err)
+    return shutdown(err)
   }
 }
 
