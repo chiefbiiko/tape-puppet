@@ -23,8 +23,12 @@ TapePuppetStream.prototype._flush = async function (end) {
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
   const finisher = finished(this._opts, async results => {
-    await page.close()
-    await browser.close()
+    try {
+      await page.close()
+      await browser.close()
+    } catch (err) {
+      return end(err)
+    }
     self.emit('results', results)
     end()
   })
@@ -35,7 +39,11 @@ TapePuppetStream.prototype._flush = async function (end) {
     if (err) return end(err)
   })
 
-  await page.evaluate(`;(async()=>{${this._accu}})();`)
+  try {
+    await page.evaluate(`;(async()=>{${this._accu}})();`)
+  } catch (err) {
+    return end(err)
+  }
 }
 
 module.exports = TapePuppetStream

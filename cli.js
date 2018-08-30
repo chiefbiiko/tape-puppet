@@ -1,6 +1,10 @@
 const tapePuppet = require('./index.js')
+const pump = require('pump')
 
-process.stdin
-  .pipe(tapePuppet())
+const errLANDexit = err => err && (console.error(err) && process.exit(1))
+
+const tapePuppetStream = tapePuppet()
   .once('results', results => process.exit(Number(!results.ok)))
-  .pipe(process.stdout)
+  .once('error', errLANDexit)
+
+pump(process.stdin, tapePuppetStream, process.stdout, errLANDexit)
