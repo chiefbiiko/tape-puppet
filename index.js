@@ -1,11 +1,8 @@
-// const log = require('why-is-node-running') // should be your first require
-
-const { PassThrough, Transform } = require('stream')
+const { Transform } = require('stream')
 const { inherits } = require('util')
 const puppeteer = require('puppeteer')
 const finished = require('tap-finished')
-
-const debug = require('debug')('tape-puppet')
+const pump = require('pump')
 
 function TapePuppetStream (opts) {
   if (!(this instanceof TapePuppetStream)) return new TapePuppetStream(opts)
@@ -23,22 +20,22 @@ TapePuppetStream.prototype._transform = function (chunk, _, next) {
 
 TapePuppetStream.prototype._flush = async function (end) {
   var self = this
-  const iife = `;(()=>{${this._accu}})();`
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
-  // const proxyStream = new PassThrough()
-  page.on('console', msg => {
-    debug('msg._text::', msg._text)
-    self.emit('data', `${msg._text}\n`)
-  })
-  await page.evaluate(iife)
-  self.pipe(finished(this._opts, async results => {
+  const finisher = finished(this._opts, async results => {
     await page.close()
     await browser.close()
     self.emit('results', results)
     end()
-    // setTimeout(log, 100)
-  }))
+  })
+
+  page.on('console', msg => self.emit('data', `${msg._text}\n`))
+
+  pump(self, finisher, err => {
+    if (err) return self.emit('error', err)
+  })
+
+  await page.evaluate(`;(async()=>{${this._accu}})();`)
 }
 
 module.exports = TapePuppetStream

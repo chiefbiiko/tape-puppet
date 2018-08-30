@@ -5,7 +5,7 @@ tape('a test case', t => {
   t.end()
 })
 
-tape.skip('another test case', t => {
-  t.fail('that fails')
+tape('another test case', t => {
+  t.notEqual(36, 44, 'that passes')
   t.end()
 })
