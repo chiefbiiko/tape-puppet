@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/chiefbiiko/tape-puppet#readme",
   "dependencies": {
+    "aka-opts": "0.0.3",
     "pump": "^3.0.0",
     "puppeteer": "^1.7.0",
     "tap-finished": "0.0.1",
