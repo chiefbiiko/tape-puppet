@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const tapePuppet = require('./index.js')
+const minimist = require('minimist')
 const pump = require('pump')
-const dealias = require('aka-opts')
+const tapePuppet = require('./index.js')
 const version = require('./package.json').version
 
 const exit = code => {
@@ -10,12 +10,12 @@ const exit = code => {
   process.exit(code)
 }
 
-var argv = dealias(require('minimist')(process.argv.slice(2)), {
-  help: [ 'h' ],
-  version: [ 'v' ]
+const argv = minimist(process.argv.slice(2), {
+  alias: { help: 'h', version: 'v' },
+  boolean: 'devtools'
 })
 
-argv.headless = ![ 'false', '0' ].includes(argv.headless)
+argv.headless = ![ 'false', 0 ].includes(argv.headless)
 
 process.title = `tape-puppet v${version}`
 
@@ -34,7 +34,7 @@ if (argv.help) {
     `  -h, --help\t\tprint usage instructions\n` +
     `  -v, --version\t\tprint version\n` +
     `      --headless\trun chromium in headless mode; default: true\n` +
-    `      --devtools\topen devtools; forces !headless; default: false\n` +
+    `      --devtools\topen devtools; requires !headless; default: false\n` +
     `      --slowMo\t\tslow down puppeteer by specified ms; default: 0\n` +
     `      --timeout\t\ttimeout for chromium launch in ms; default: 30000\n` +
     `      --wait\t\ttimeout for tap-finished in ms; default: 1000\n\n` +

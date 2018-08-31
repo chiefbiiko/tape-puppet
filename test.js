@@ -13,9 +13,11 @@ tape('a browser test case', async t => {
 })
 
 tape('yet another browser test case', t => {
-  const btn = document.createElement('button')
+  var btn = document.createElement('button')
   btn.onclick = e => {
     t.true(e.target.isSameNode(btn), 'proper browser event')
+    document.body.removeChild(btn)
+    btn = null
     t.end()
   }
   document.body.appendChild(btn)

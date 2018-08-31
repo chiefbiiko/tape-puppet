@@ -15,13 +15,13 @@ Meant to be used with `browserify`. If you want this to work with other bundlers
 For `npm` scripts or programmatic usage:
 
 ```
-npm install --save-dev tape-puppet
+npm install --save-dev tape-puppet@latest
 ```
 
 Globally:
 
 ```
-npm install --global tape-puppet
+npm install --global tape-puppet@latest
 ```
 
 Make sure to also have `browserify` available.
@@ -31,8 +31,6 @@ Make sure to also have `browserify` available.
 ## Usage
 
 Write ordinary `tape` tests, while using browser APIs in your test cases! Check out [`./test.js`](./test.js) for examples.
-
-The implementation is nothing more than a duplex stream. Pipe it, pump it, whatever.
 
 ### CLI
 
@@ -45,7 +43,7 @@ browserify ./test.js | tape-puppet
 Run `tape-puppet -h` for usage instructions:
 
 ```
-tape-puppet v0.0.5
+tape-puppet v0.0.7
 
 A duplex stream that runs browserified tape tests with puppeteer.
 Just pipe a browserify stream into this and consume its TAP output.
@@ -59,7 +57,7 @@ Options:
   -h, --help            print usage instructions
   -v, --version         print version
       --headless        run chromium in headless mode; default: true
-      --devtools        open devtools; forces !headless; default: false
+      --devtools        open devtools; requires !headless; default: false
       --slowMo          slow down puppeteer by specified ms; default: 0
       --timeout         timeout for chromium launch in ms; default: 30000
       --wait            timeout for tap-finished in ms; default: 1000
@@ -70,11 +68,39 @@ Examples:
   browserify ./test.js | tape-puppet > ./test.tap
 ```
 
+### Debugging
+
+You can have a visible Chromium window pop up by setting option `headless` to `false`. Running such a Chromium *head* allows further debugging. You can automatically open Chromium DevTools by setting `devtools` to `true`. Moreover, an open DevTools tab enables `debugger` statements in your tape tests, meaning you can literally do sth similar to this:
+
+1. Throw `debugger` statements into your `tape` test cases:
+
+``` js
+// example ./test.js
+const tape = require('tape')
+
+tape('a debug test', t => {
+  var y, z = 'v'
+  ;debugger;
+  t.equal(y, z, 'y equals z')
+  t.end()
+})
+```
+
+2. Run `tape-puppet` in non-headless mode and with DevTools:
+
+```
+browserify ./test.js | tape-puppet --headless=false --devtools=true
+```
+
+A Chromium head plus its DevTools will open and script execution will pause at the specified breakpoints...happy debugging!
+
 ### `node`
 
 #### `new TapePuppetStream([opts])`
 
 Create a new `TapePuppetStream` instance, a transform stream. See above for available options.
+
+The implementation is nothing more than a duplex stream. Pipe it, pump it, whatever...
 
 ***
 

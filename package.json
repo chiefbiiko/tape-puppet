@@ -1,6 +1,6 @@
 {
   "name": "tape-puppet",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "duplex stream that runs browserified tape tests with puppeteer",
   "main": "index.js",
   "bin": {
@@ -30,7 +30,6 @@
   },
   "homepage": "https://github.com/chiefbiiko/tape-puppet#readme",
   "dependencies": {
-    "aka-opts": "0.0.3",
     "minimist": "^1.2.0",
     "pump": "^3.0.0",
     "puppeteer": "^1.7.0",
