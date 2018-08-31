@@ -6,13 +6,13 @@
 
 A test runner for [`browserify`](https://github.com/browserify/browserify)'d [`tape`](https://github.com/substack/tape) tests, runs [`puppeteer`](https://github.com/GoogleChrome/puppeteer). Inspired by [`tape-run`](https://github.com/juliangruber/tape-run). Dead simple.
 
-Designed to be used with `browserify`. If you want this to work with other bundlers open an issue.
+Meant to be used with `browserify`. If you want this to work with other bundlers open an [issue](https://github.com/chiefbiiko/tape-puppet/issues).
 
 ***
 
 ## Get it!
 
-For programmatic or `npm` scripts usage:
+For `npm` scripts or programmatic usage:
 
 ```
 npm install --save-dev tape-puppet
@@ -69,8 +69,6 @@ Examples:
   browserify ./test.js | tape-puppet
   browserify ./test.js | tape-puppet > ./test.tap
 ```
-
-***
 
 ### `node`
 
