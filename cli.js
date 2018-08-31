@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const tapePuppet = require('./index.js')
 const pump = require('pump')
 const dealias = require('aka-opts')
@@ -9,8 +11,8 @@ const exit = code => {
 }
 
 var argv = dealias(require('yargs').argv, { help: [ 'h' ], version: [ 'v' ]})
-
 argv.headless = ![ 'false', '0' ].includes(argv.headless)
+
 process.title = `tape-puppet v${version}`
 
 if (argv.help) {
