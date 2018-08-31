@@ -5,11 +5,12 @@ const finished = require('tap-finished')
 const pump = require('pump')
 
 const noSandboxOnTravis = opts => {
-  // if ('CI' in process.env && 'TRAVIS' in process.env) {
-  //   opts = Object.assign({}, opts)
-  //   if (Array.isArray(opts.args)) opts.args.push('--no-sandbox')
-  //   else opts.args = [ '--no-sandbox' ]
-  // }
+  if ('CI' in process.env && 'TRAVIS' in process.env) {
+    opts = Object.assign({}, opts)
+    const chromium_flags = [ '--no-sandbox', '--disable-setuid-sandbox' ]
+    if (Array.isArray(opts.args)) opts.args = opts.args.concat(chromium_flags)
+    else opts.args = chromium_flags
+  }
   return opts
 }
 
