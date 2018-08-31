@@ -30,7 +30,7 @@ Make sure to also have `browserify` available.
 
 ## Usage
 
-Write ordinary `tape` tests, while using browser API's in your test cases! Check out [`./test.js`](./test.js) for examples.
+Write ordinary `tape` tests, while using browser APIs in your test cases! Check out [`./test.js`](./test.js) for examples.
 
 The implementation is nothing more than a duplex stream. Pipe it, pump it, whatever.
 

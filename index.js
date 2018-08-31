@@ -33,21 +33,17 @@ TapePuppetStream.prototype._flush = async function flush (end) {
 
   const shutdown = async err => {
     try {
-      await browser.close()
+      if (browser) await browser.close()
     } catch (error) {
       if (!err) err = error
     }
+    if (!self.destroyed) self.destroy(err)
     end(err)
   }
 
-  const finisher = finished(this._opts, results => {
-    self.emit('results', results)
-    shutdown()
-  })
-
   var browser, page
   try {
-    browser = await launch(this._opts)
+    browser = await launch(self._opts)
     page = await browser.newPage()
   } catch (err) {
     return shutdown(err)
@@ -57,12 +53,10 @@ TapePuppetStream.prototype._flush = async function flush (end) {
   page.on('pageerror', shutdown)
   page.on('console', msg => self.push(`${msg._text}\n`))
 
-  pump(self, finisher, err => {
-    if (err) return shutdown(err)
-  })
+  pump(self, finished(self._opts, self.emit.bind(self, 'results')), shutdown)
 
   try {
-    await page.evaluate(String(this._accu))
+    await page.evaluate(String(self._accu))
   } catch (err) {
     return shutdown(err)
   }
