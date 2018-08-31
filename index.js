@@ -4,10 +4,18 @@ const { launch } = require('puppeteer')
 const finished = require('tap-finished')
 const pump = require('pump')
 
+const noSandboxOnTravis = opts => {
+  if ('CI' in process.env && 'TRAVIS' in process.env) {
+    if (Array.isArray(opts.args)) opts.args.push('--no-sandbox')
+    else opts.args = [ '--no-sandbox' ]
+  }
+  return opts
+}
+
 function TapePuppetStream (opts) {
   if (!(this instanceof TapePuppetStream)) return new TapePuppetStream(opts)
   Transform.call(this)
-  this._opts = opts || {}
+  this._opts = noSandboxOnTravis(opts || {})
   this._accu = Buffer.alloc(0)
 }
 
