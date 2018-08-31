@@ -1,13 +1,23 @@
 const tape = require('tape')
 
-tape('a test case', async t => {
+tape('a trivial test case', t => {
+  t.notEqual(36, 44, 'that passes')
+  t.end()
+})
+
+tape('a browser test case', async t => {
   const res = await fetch('https://api.github.com/users/chiefbiiko')
   const usr = await res.json()
   t.equal(usr.login, 'chiefbiiko', 'just used the browser\'s fetch API')
   t.end()
 })
 
-tape('another test case', t => {
-  t.notEqual(36, 44, 'that passes')
-  t.end()
+tape('yet another browser test case', t => {
+  const btn = document.createElement('button')
+  btn.onclick = e => {
+    t.true(e.target.isSameNode(btn), 'proper browser event')
+    t.end()
+  }
+  document.body.appendChild(btn)
+  btn.click()
 })

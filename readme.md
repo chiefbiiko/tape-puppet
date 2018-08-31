@@ -6,6 +6,8 @@
 
 A test runner for [`browserify`](https://github.com/browserify/browserify)'d [`tape`](https://github.com/substack/tape) tests, runs [`puppeteer`](https://github.com/GoogleChrome/puppeteer). Inspired by [`tape-run`](https://github.com/juliangruber/tape-run). Dead simple.
 
+Designed to be used with `browserify`. If you want this to work with other bundlers open an issue.
+
 ***
 
 ## Get it!
@@ -22,14 +24,19 @@ Globally:
 npm install --global tape-puppet
 ```
 
+Make sure to also have `browserify` available.
+
 ***
 
 ## Usage
 
+Write ordinary `tape` tests, while using browser API's in your test cases! Check out [`./test.js`](./test.js) for examples.
 
-`tape-puppet` is nothing more than a duplex stream. Pipe it, pump it, whatever.
+The implementation is nothing more than a duplex stream. Pipe it, pump it, whatever.
 
 ### CLI
+
+Run below from a terminal or set it as your `package.json`'s test command:
 
 ```
 browserify ./test.js | tape-puppet
@@ -38,7 +45,7 @@ browserify ./test.js | tape-puppet
 Run `tape-puppet -h` for usage instructions:
 
 ```
-tape-puppet v0.0.4
+tape-puppet v0.0.5
 
 A duplex stream that runs browserified tape tests with puppeteer.
 Just pipe a browserify stream into this and consume its TAP output.

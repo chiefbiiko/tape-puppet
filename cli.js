@@ -10,10 +10,19 @@ const exit = code => {
   process.exit(code)
 }
 
-var argv = dealias(require('yargs').argv, { help: [ 'h' ], version: [ 'v' ]})
+var argv = dealias(require('minimist')(process.argv.slice(2)), {
+  help: [ 'h' ],
+  version: [ 'v' ]
+})
+
 argv.headless = ![ 'false', '0' ].includes(argv.headless)
 
 process.title = `tape-puppet v${version}`
+
+if (argv.version) {
+  console.log(`v${version}`)
+  exit(0)
+}
 
 if (argv.help) {
   console.log(`tape-puppet v${version}\n\n` +
