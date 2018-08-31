@@ -6,6 +6,7 @@ const pump = require('pump')
 
 const noSandboxOnTravis = opts => {
   if ('CI' in process.env && 'TRAVIS' in process.env) {
+    opts = Object.assign({}, opts)
     if (Array.isArray(opts.args)) opts.args.push('--no-sandbox')
     else opts.args = [ '--no-sandbox' ]
   }
@@ -15,7 +16,7 @@ const noSandboxOnTravis = opts => {
 function TapePuppetStream (opts) {
   if (!(this instanceof TapePuppetStream)) return new TapePuppetStream(opts)
   Transform.call(this)
-  this._opts = noSandboxOnTravis(opts || {})
+  this._opts = Object.assign({}, noSandboxOnTravis(opts || {}))
   this._accu = Buffer.alloc(0)
 }
 
