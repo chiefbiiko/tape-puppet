@@ -10,6 +10,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 const noSandboxOnTravis = opts => {
   if ('CI' in process.env && 'TRAVIS' in process.env) {
+    opts = Object.assign({}, opts)
     const chromium_flags = [ '--no-sandbox', '--disable-setuid-sandbox' ]
     if (Array.isArray(opts.args)) opts.args = opts.args.concat(chromium_flags)
     else opts.args = chromium_flags
