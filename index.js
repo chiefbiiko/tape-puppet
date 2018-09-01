@@ -9,8 +9,7 @@ const DEVICES = require('./DEVICES.js')
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 const noSandboxOnTravis = opts => {
-  if (/*'CI' in process.env && */'TRAVIS' in process.env) {
-    // opts = Object.assign({}, opts)
+  if ('TRAVIS' in process.env) {
     const chromium_flags = [ '--no-sandbox', '--disable-setuid-sandbox' ]
     if (Array.isArray(opts.args)) opts.args = opts.args.concat(chromium_flags)
     else opts.args = chromium_flags
@@ -29,6 +28,7 @@ function TapePuppetStream (opts) {
   this._opts = allowDevtools(noSandboxOnTravis(Object.assign({}, opts || {})))
   this._accu = Buffer.alloc(0)
   if (this._opts.devices) this.end() // no stdin expected, trigger flush
+  console.error(this._opts)
 }
 
 inherits(TapePuppetStream, Transform)
