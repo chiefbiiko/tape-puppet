@@ -24,7 +24,7 @@ tape('yet another browser test case', t => {
   btn.click()
 })
 
-tape('a debug test', t => {
+tape.skip('a debug test', t => { // included for demo, skipped for CI automation
   var y, z = 'v'
   ;debugger;
   t.equal(y, z, 'y equals z')

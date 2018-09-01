@@ -6,6 +6,8 @@
 
 A test runner for [`browserify`](https://github.com/browserify/browserify)'d [`tape`](https://github.com/substack/tape) tests, runs [`puppeteer`](https://github.com/GoogleChrome/puppeteer). Inspired by [`tape-run`](https://github.com/juliangruber/tape-run). Dead simple.
 
+Features Chromium DevTools debugging and device emulation.
+
 Meant to be used with `browserify`. If you want this to work with other bundlers open an [issue](https://github.com/chiefbiiko/tape-puppet/issues).
 
 ***
@@ -43,7 +45,7 @@ browserify ./test.js | tape-puppet
 Run `tape-puppet -h` for usage instructions:
 
 ```
-tape-puppet v0.0.7
+tape-puppet v0.1.0
 
 A duplex stream that runs browserified tape tests with puppeteer.
 Just pipe a browserify stream into this and consume its TAP output.
@@ -57,14 +59,18 @@ Options:
   -h, --help            print usage instructions
   -v, --version         print version
       --headless        run chromium in headless mode; default: true
-      --devtools        open devtools; requires !headless; default: false
+      --devtools        open devtools; forces !--headless; default: false
       --slowMo          slow down puppeteer by specified ms; default: 0
+      --emulate         emulate a mobile device; fx "iPhone X"
+      --devices         list mobile devices that can be emulated
       --timeout         timeout for chromium launch in ms; default: 30000
       --wait            timeout for tap-finished in ms; default: 1000
 
 Examples:
 
   browserify ./test.js | tape-puppet
+  browserify ./test.js | tape-puppet --devtools
+  browserify ./test.js | tape-puppet --headless 0 --emulate "iPhone X"
   browserify ./test.js | tape-puppet > ./test.tap
 ```
 
@@ -89,10 +95,24 @@ tape('a debug test', t => {
 2. Run `tape-puppet` in non-headless mode and with DevTools:
 
 ```
-browserify ./test.js | tape-puppet --headless=false --devtools=true
+browserify ./test.js | tape-puppet --devtools
 ```
 
 A Chromium head plus its DevTools will open and script execution will pause at the specified breakpoints...happy debugging!
+
+### Emulation
+
+A set of mobile devices can be emulated by setting option `emulate` to a device name string. CLI example:
+
+```
+browserify ./test.js | tape-puppet --emulate "iPhone X"
+```
+
+List the names of all covered devices by setting option `devices`. CLI example:
+
+```
+tape-puppet --devices
+```
 
 ### `node`
 

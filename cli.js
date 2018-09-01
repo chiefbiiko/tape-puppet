@@ -42,7 +42,8 @@ if (argv.help) {
     `      --wait\t\ttimeout for tap-finished in ms; default: 1000\n\n` +
     `Examples:\n\n` +
     `  browserify ./test.js | tape-puppet\n` +
-    `  browserify ./test.js | tape-puppet --headless 0 --devtools --emulate "iPhone X"`
+    `  browserify ./test.js | tape-puppet --devtools\n` +
+    `  browserify ./test.js | tape-puppet --headless 0 --emulate "iPhone X"\n` +
     `  browserify ./test.js | tape-puppet > ./test.tap`)
   exit(0)
 }
