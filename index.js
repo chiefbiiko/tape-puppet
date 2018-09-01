@@ -28,7 +28,6 @@ function TapePuppetStream (opts) {
   this._opts = allowDevtools(noSandboxOnTravis(Object.assign({}, opts || {})))
   this._accu = Buffer.alloc(0)
   if (this._opts.devices) this.end() // no stdin expected, trigger flush
-  console.error(this._opts)
 }
 
 inherits(TapePuppetStream, Transform)
