@@ -23,3 +23,10 @@ tape('yet another browser test case', t => {
   document.body.appendChild(btn)
   btn.click()
 })
+
+tape('a debug test', t => {
+  var y, z = 'v'
+  ;debugger;
+  t.equal(y, z, 'y equals z')
+  t.end()
+})

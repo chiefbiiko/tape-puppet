@@ -34,12 +34,15 @@ if (argv.help) {
     `  -h, --help\t\tprint usage instructions\n` +
     `  -v, --version\t\tprint version\n` +
     `      --headless\trun chromium in headless mode; default: true\n` +
-    `      --devtools\topen devtools; requires !headless; default: false\n` +
+    `      --devtools\topen devtools; forces !--headless; default: false\n` +
     `      --slowMo\t\tslow down puppeteer by specified ms; default: 0\n` +
+    `      --emulate\t\temulate a mobile device; fx "iPhone X"\n` +
+    `      --devices\t\tlist mobile devices that can be emulated\n` +
     `      --timeout\t\ttimeout for chromium launch in ms; default: 30000\n` +
     `      --wait\t\ttimeout for tap-finished in ms; default: 1000\n\n` +
     `Examples:\n\n` +
     `  browserify ./test.js | tape-puppet\n` +
+    `  browserify ./test.js | tape-puppet --headless 0 --devtools --emulate "iPhone X"`
     `  browserify ./test.js | tape-puppet > ./test.tap`)
   exit(0)
 }
