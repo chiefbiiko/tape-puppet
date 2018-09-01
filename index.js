@@ -47,10 +47,12 @@ TapePuppetStream.prototype._flush = async function flush (end) {
   }
 
   const shutdown = async err => {
-    try {
-      if (browser) await browser.close()
-    } catch (error) {
-      if (!err) err = error
+    if (browser) {
+      try {
+        await browser.close()
+      } catch (error) {
+        if (!err) err = error
+      }
     }
     if (!self.destroyed) self.destroy(err)
     end(err)
@@ -61,23 +63,26 @@ TapePuppetStream.prototype._flush = async function flush (end) {
     browser = await launch(self._opts)
     page = await browser.newPage()
   } catch (err) {
-    return shutdown(err)
+    return await shutdown(err)
   }
 
-  page.on('error', shutdown)
-  page.on('pageerror', shutdown)
-  page.on('console', msg => self.push(`${msg._text}\n`))
+  page.on('error', async err => await shutdown(err))
+  page.on('pageerror', async err => await shutdown(err))
+  page.on('console', msg => self.push(`${msg.text()}\n`))
 
-  pump(self, finished(self._opts, self.emit.bind(self, 'results')), shutdown)
+  pump(self, finished(self._opts, async results => {
+    await shutdown()
+    self.emit('results', results)
+  }))
 
   try {
     if (DEVICES[self._opts.emulate])
       await page.emulate(DEVICES[self._opts.emulate])
     if (/debugger/.test(self._accu))
-      await sleep(500) // HACK: allow debugger statements to become effective
+      await sleep(500) // HACK: allow debugger engine startup
     await page.evaluate(String(self._accu))
   } catch (err) {
-    return shutdown(err)
+    return await shutdown(err)
   }
 }
 
