@@ -62,8 +62,9 @@ TapePuppetStream.prototype._flush = async function flush (end) {
   pump(self, finished(self._opts, self.emit.bind(self, 'results')), shutdown)
 
   try {
-    if (self._opts.emulate && DEVICES[self._opts.emulate])
+    if (self._opts.emulate && DEVICES[self._opts.emulate]) {
       await page.emulate(DEVICES[self._opts.emulate])
+    }
     await page.evaluate(String(self._accu))
   } catch (err) {
     return shutdown(err)
