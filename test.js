@@ -6,9 +6,9 @@ tape('a trivial test case', t => {
 })
 
 tape('a browser test case', async t => {
-  const res = await fetch('https://api.github.com/users/chiefbiiko')
-  const usr = await res.json()
-  t.equal(usr.login, 'chiefbiiko', 'just used the browser\'s fetch API')
+  const res = await fetch('https://raw.githubusercontent.com/chiefbiiko/tape-puppet/master/package.json')
+  const pkg = await res.json()
+  t.equal(pkg.name, 'tape-puppet', 'just used the browser\'s fetch API')
   t.end()
 })
 
