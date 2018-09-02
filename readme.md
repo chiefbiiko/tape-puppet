@@ -32,7 +32,7 @@ Make sure to also have `browserify` available.
 
 ## Usage
 
-Write ordinary `tape` tests, while using browser APIs in your test cases! Check out [`./test.js`](./test.js) for examples.
+Write ordinary `tape` tests while using browser APIs in your test cases! Check out [`./test.js`](./test.js) for examples.
 
 ### CLI
 
@@ -77,7 +77,7 @@ Examples:
 
 ### Debugging
 
-You can have a visible Chromium window pop up by setting option `headless` to `false`. Running such a Chromium *head* allows further debugging. You can automatically open Chromium DevTools by setting `devtools` to `true`. Moreover, an open DevTools tab enables `debugger` statements in your tape tests, meaning you can literally do sth similar to this:
+You can have a visible Chromium window pop up by setting option `headless` to `false`. Running such a Chromium head allows further debugging. You can automatically open Chromium DevTools by setting option `devtools` to `true`. Moreover, an open DevTools tab enables `debugger` statements in your tape tests, meaning you can literally do sth similar to this:
 
 1. Throw `debugger` statements into your `tape` test cases:
 
@@ -119,7 +119,7 @@ tape-puppet --devices
 
 #### `new TapePuppetStream([opts])`
 
-Create a new `TapePuppetStream` instance, a transform stream. See above for available options. Note that options `emulate` and `devices` are available with the CLI only. Moreover, dictating window width and height programmatically requires setting `opts.args` to  an array that includes a string like `--window-size=${width},${height}`.
+Create a new `TapePuppetStream` instance, a transform stream. See above for available options. Note that options `emulate` and `devices` are available with the CLI only. Moreover, dictating window width and height programmatically requires setting `opts.args` to an array that includes a string like `--window-size=${width},${height}`.
 
 The implementation is nothing more than a duplex stream. Pipe it, pump it, whatever...
 
