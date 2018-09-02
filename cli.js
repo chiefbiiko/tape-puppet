@@ -34,7 +34,7 @@ if (argv.help) {
     `  -h, --help\t\tprint usage instructions\n` +
     `  -v, --version\t\tprint version\n` +
     `      --headless\trun chromium in headless mode; default: true\n` +
-    `      --devtools\topen devtools; forces !--headless; default: false\n` +
+    `      --devtools\topen devtools; forces !headless; default: false\n` +
     `      --emulate\t\temulate a mobile device; fx "iPhone X"\n` +
     `      --devices\t\tlist mobile devices that can be emulated\n` +
     `      --width\t\tchromium window width in px\n` +

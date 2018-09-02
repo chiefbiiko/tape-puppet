@@ -59,7 +59,7 @@ Options:
   -h, --help            print usage instructions
   -v, --version         print version
       --headless        run chromium in headless mode; default: true
-      --devtools        open devtools; forces !--headless; default: false
+      --devtools        open devtools; forces !headless; default: false
       --emulate         emulate a mobile device; fx "iPhone X"
       --devices         list mobile devices that can be emulated
       --width           chromium window width in px
@@ -119,7 +119,7 @@ tape-puppet --devices
 
 #### `new TapePuppetStream([opts])`
 
-Create a new `TapePuppetStream` instance, a transform stream. See above for available options.
+Create a new `TapePuppetStream` instance, a transform stream. See above for available options. Note that options `emulate` and `devices` are available with the CLI only. Moreover, dictating window width and height programmatically requires setting `opts.args` to  an array that includes a string like `--window-size=${width},${height}`.
 
 The implementation is nothing more than a duplex stream. Pipe it, pump it, whatever...
 
