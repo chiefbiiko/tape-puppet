@@ -35,9 +35,10 @@ if (argv.help) {
     `  -v, --version\t\tprint version\n` +
     `      --headless\trun chromium in headless mode; default: true\n` +
     `      --devtools\topen devtools; forces !--headless; default: false\n` +
-    `      --slowMo\t\tslow down puppeteer by specified ms; default: 0\n` +
     `      --emulate\t\temulate a mobile device; fx "iPhone X"\n` +
     `      --devices\t\tlist mobile devices that can be emulated\n` +
+    `      --width\t\tchromium window width in px\n` +
+    `      --height\t\tchromium window height in px\n` +
     `      --timeout\t\ttimeout for chromium launch in ms; default: 30000\n` +
     `      --wait\t\ttimeout for tap-finished in ms; default: 1000\n\n` +
     `Examples:\n\n` +

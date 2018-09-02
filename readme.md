@@ -45,7 +45,7 @@ browserify ./test.js | tape-puppet
 Run `tape-puppet -h` for usage instructions:
 
 ```
-tape-puppet v0.1.1
+tape-puppet v0.1.2
 
 A duplex stream that runs browserified tape tests with puppeteer.
 Just pipe a browserify stream into this and consume its TAP output.
@@ -60,9 +60,10 @@ Options:
   -v, --version         print version
       --headless        run chromium in headless mode; default: true
       --devtools        open devtools; forces !--headless; default: false
-      --slowMo          slow down puppeteer by specified ms; default: 0
       --emulate         emulate a mobile device; fx "iPhone X"
       --devices         list mobile devices that can be emulated
+      --width           chromium window width in px
+      --height          chromium window height in px
       --timeout         timeout for chromium launch in ms; default: 30000
       --wait            timeout for tap-finished in ms; default: 1000
 

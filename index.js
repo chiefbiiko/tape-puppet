@@ -17,6 +17,15 @@ const noSandboxOnTravis = opts => {
   return opts
 }
 
+const checkWidthHeight = opts => {
+  if (typeof opts.width === 'number' || typeof opts.height === 'number') {
+    const size = [ `--window-size=${opts.width || 800},${opts.height || 600}` ]
+    if (Array.isArray(opts.args)) opts.args = opts.args.concat(size)
+    else opts.args = size
+  }
+  return opts
+}
+
 const allowDevtools = opts => {
   if (opts.devtools) opts.headless = false
   return opts
@@ -25,7 +34,7 @@ const allowDevtools = opts => {
 function TapePuppetStream (opts) {
   if (!(this instanceof TapePuppetStream)) return new TapePuppetStream(opts)
   Transform.call(this)
-  this._opts = allowDevtools(noSandboxOnTravis(Object.assign({}, opts || {})))
+  this._opts = allowDevtools(checkWidthHeight(noSandboxOnTravis(Object.assign({}, opts || {}))))
   this._accu = Buffer.alloc(0)
   if (this._opts.devices) this.end() // no stdin expected, trigger flush
 }
@@ -79,7 +88,7 @@ TapePuppetStream.prototype._flush = async function flush (end) {
     if (DEVICES[self._opts.emulate])
       await page.emulate(DEVICES[self._opts.emulate])
     if (/debugger/.test(self._accu))
-      await sleep(500) // HACK: allow debugger engine startup
+      await sleep(1000) // HACK: allow debugger engine startup
     await page.evaluate(String(self._accu))
   } catch (err) {
     return await shutdown(err)
