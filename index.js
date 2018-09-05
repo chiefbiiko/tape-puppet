@@ -27,7 +27,7 @@ TapePuppetStream.prototype._flush = async function flush (end) {
   const self = this
 
   if (self._opts.devices) { // list device names and quit
-    Object.keys(DEVICES).forEach(deviceName => self.push(`${deviceName}\n`))
+    Object.keys(DEVICES).forEach(device_name => self.push(`${device_name}\n`))
     self.destroy()
     return end()
   }
@@ -47,7 +47,7 @@ TapePuppetStream.prototype._flush = async function flush (end) {
   var browser, page
   try {
     browser = await launch(self._opts)
-    page = await browser.newPage()
+    page = (await browser.pages())[0]
   } catch (err) {
     return await shutdown(err)
   }

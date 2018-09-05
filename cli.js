@@ -49,12 +49,9 @@ if (argv.help) {
   exit(0)
 }
 
-const tapePuppetStream = tapePuppet(argv)
-  .once('results', results => exit(Number(!results.ok)))
-
-pump(process.stdin, tapePuppetStream, process.stdout, err => {
-  if (err) {
-    console.error(err)
-    exit(1)
-  }
-})
+pump(
+  process.stdin,
+  tapePuppet(argv).once('results', results => exit(Number(!results.ok))),
+  process.stdout,
+  err => err && (console.error(err) && exit(1))
+)
