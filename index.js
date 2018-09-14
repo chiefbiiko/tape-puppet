@@ -1,6 +1,6 @@
 const { Transform } = require('stream')
 const { inherits } = require('util')
-const { launch } = require('puppeteer')
+const puppeteer = require('puppeteer')
 const finished = require('tap-finished')
 const pump = require('pump')
 
@@ -46,7 +46,7 @@ TapePuppetStream.prototype._flush = async function flush (end) {
 
   var browser, page
   try {
-    browser = await launch(self._opts)
+    browser = await puppeteer.launch(self._opts)
     page = (await browser.pages())[0]
   } catch (err) {
     return await shutdown(err)
