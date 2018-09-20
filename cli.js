@@ -10,14 +10,14 @@ const exit = code => {
   process.exit(code)
 }
 
+process.title = `tape-puppet v${version}`
+
 const argv = minimist(process.argv.slice(2), {
   alias: { help: 'h', version: 'v' },
   boolean: 'devtools'
 })
 
 argv.headless = ![ 'false', 0 ].includes(argv.headless)
-
-process.title = `tape-puppet v${version}`
 
 if (argv.version) {
   console.log(`v${version}`)
@@ -51,7 +51,12 @@ if (argv.help) {
 
 pump(
   process.stdin,
-  tapePuppet(argv).once('results', results => exit(Number(!results.ok))),
+  tapePuppet(argv).once('results', res => exit(res.ok ? 0 : 1)),
   process.stdout,
-  err => err && (console.error(err) && exit(1))
+  err => {
+    if (err) {
+      console.error(err)
+      exit(1)
+    }
+  }
 )
