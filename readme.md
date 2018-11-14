@@ -45,7 +45,7 @@ browserify ./test.js | tape-puppet
 Run `tape-puppet -h` for usage instructions:
 
 ```
-tape-puppet v0.1.6
+tape-puppet v0.1.7
 
 A duplex stream that runs browserified tape tests with puppeteer.
 Just pipe a browserify stream into this and consume its TAP output.

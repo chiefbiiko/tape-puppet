@@ -25,27 +25,36 @@ if (argv.version) {
 }
 
 if (argv.help) {
-  console.log(`tape-puppet v${version}\n\n` +
-    `A duplex stream that runs browserified tape tests with puppeteer.\n` +
-    `Just pipe a browserify stream into this and consume its TAP output.\n\n` +
-    `Usage:\n\n` +
-    `  browserify [opts] [files] | tape-puppet [opts]\n\n` +
-    `Options:\n\n` +
-    `  -h, --help\t\tprint usage instructions\n` +
-    `  -v, --version\t\tprint version\n` +
-    `      --headless\trun chromium in headless mode; default: true\n` +
-    `      --devtools\topen devtools; forces !headless; default: false\n` +
-    `      --emulate\t\temulate a mobile device; fx "iPhone X"\n` +
-    `      --devices\t\tlist mobile devices that can be emulated\n` +
-    `      --width\t\tchromium window width in px\n` +
-    `      --height\t\tchromium window height in px\n` +
-    `      --timeout\t\ttimeout for chromium launch in ms; default: 30000\n` +
-    `      --wait\t\ttimeout for tap-finished in ms; default: 1000\n\n` +
-    `Examples:\n\n` +
-    `  browserify ./test.js | tape-puppet\n` +
-    `  browserify ./test.js | tape-puppet --devtools\n` +
-    `  browserify ./test.js | tape-puppet --headless 0 --emulate "iPhone X"\n` +
-    `  browserify ./test.js | tape-puppet > ./test.tap`)
+  console.log(`
+    tape-puppet v${version}
+
+    A duplex stream that runs browserified tape tests with puppeteer.
+    Just pipe a browserify stream into this and consume its TAP output.
+
+    Usage:
+
+      browserify [opts] [files] | tape-puppet [opts]
+
+    Options:
+
+      -h, --help\t\tprint usage instructions
+      -v, --version\t\tprint version
+          --headless\trun chromium in headless mode; default: true
+          --devtools\topen devtools; forces !headless; default: false
+          --emulate\t\temulate a mobile device; fx "iPhone X"
+          --devices\t\tlist mobile devices that can be emulated
+          --width\t\tchromium window width in px
+          --height\t\tchromium window height in px
+          --timeout\t\ttimeout for chromium launch in ms; default: 30000
+          --wait\t\ttimeout for tap-finished in ms; default: 1000
+
+    Examples:
+
+      browserify ./test.js | tape-puppet
+      browserify ./test.js | tape-puppet --devtools
+      browserify ./test.js | tape-puppet --headless 0 --emulate "iPhone X"
+      browserify ./test.js | tape-puppet > ./test.tap
+      `.replace(/^ {4}/gm, ''))
   exit(0)
 }
 
