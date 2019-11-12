@@ -33,6 +33,10 @@ TapePuppetStream.prototype._flush = async function flush (end) {
   }
 
   const shutdown = async err => {
+    if (!this._opts.autoclose) {
+      return new Promise(() => { /* hang forever */ })
+    }
+
     if (browser) {
       try {
         await browser.close()
