@@ -58,8 +58,16 @@ TapePuppetStream.prototype._flush = async function flush (end) {
     return await shutdown(err)
   }
 
-  page.on('error', async err => await shutdown(err))
-  page.on('pageerror', async err => await shutdown(err))
+  page.on('error', async err => {
+    console.error('Received error from puppeteer')
+    console.error(err)
+    await shutdown(err)
+  })
+  page.on('pageerror', async err => {
+    console.error('Received pageerror from puppeteer')
+    console.error(err)
+    await shutdown(err)
+  })
   page.on('console', msg => self.push(`${msg.text()}\n`))
 
   pump(self, finished(self._opts, async results => {
