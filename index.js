@@ -49,6 +49,8 @@ TapePuppetStream.prototype._flush = async function flush (end) {
     browser = await puppeteer.launch(self._opts)
     page = (await browser.pages())[0]
   } catch (err) {
+    console.error('Could not launch puppeteer')
+    console.error(err)
     return await shutdown(err)
   }
 
@@ -68,6 +70,8 @@ TapePuppetStream.prototype._flush = async function flush (end) {
       await sleep(1000) // HACK: allow debugger engine startup
     await page.evaluate(String(self._accu))
   } catch (err) {
+    console.error('Could not evaluate javascript')
+    console.error(err)
     return await shutdown(err)
   }
 }
