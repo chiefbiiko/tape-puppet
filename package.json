@@ -32,7 +32,7 @@
   "dependencies": {
     "minimist": "^1.2.0",
     "pump": "^3.0.0",
-    "puppeteer": "^1.7.0",
+    "puppeteer": "^2.0.0",
     "tap-finished": "0.0.1"
   },
   "devDependencies": {
