@@ -85,7 +85,10 @@ TapePuppetStream.prototype._flush = async function flush (end) {
       await page.evaluate('debugger;')
     }
 
-    await page.evaluate(String(self._accu))
+    await page.addScriptTag({
+      type: 'text/javascript',
+      content: String(self._accu)
+    })
   } catch (err) {
     console.error('Could not evaluate javascript')
     console.error(err)
