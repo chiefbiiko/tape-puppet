@@ -14,10 +14,11 @@ process.title = `tape-puppet v${version}`
 
 const argv = minimist(process.argv.slice(2), {
   alias: { help: 'h', version: 'v' },
-  boolean: 'devtools'
+  boolean: ['devtools', 'debug']
 })
 
 argv.headless = ![ 'false', 0 ].includes(argv.headless)
+argv.autoclose = ![ 'false', 0 ].includes(argv.autoclose)
 
 if (argv.version) {
   console.log(`v${version}`)
@@ -41,6 +42,8 @@ if (argv.help) {
       -v, --version\t\tprint version
           --headless\trun chromium in headless mode; default: true
           --devtools\topen devtools; forces !headless; default: false
+          --autoclose\tclose chromium when program completes; default: true
+          --debug\tAdd a breakpoint (debugger) before all code; default: false
           --emulate\t\temulate a mobile device; fx "iPhone X"
           --devices\t\tlist mobile devices that can be emulated
           --width\t\tchromium window width in px
