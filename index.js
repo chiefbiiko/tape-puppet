@@ -78,8 +78,13 @@ TapePuppetStream.prototype._flush = async function flush (end) {
   try {
     if (DEVICES[self._opts.emulate])
       await page.emulate(DEVICES[self._opts.emulate])
-    if (/debugger/.test(self._accu))
+    if (/debugger/.test(self._accu) || this._opts.debug)
       await sleep(1000) // HACK: allow debugger engine startup
+
+    if (this._opts.debug) {
+      await page.evaluate('debugger;')
+    }
+
     await page.evaluate(String(self._accu))
   } catch (err) {
     console.error('Could not evaluate javascript')
