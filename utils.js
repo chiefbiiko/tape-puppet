@@ -25,7 +25,20 @@ const allowDevtools = opts => {
   return opts
 }
 
-const processOpts = compose(allowDevtools, checkWidthHeight, noSandboxOnTravis)
+const allowAutoClose = opts => {
+  if (!opts.autoclose) {
+    opts.headless = false
+    opts.devtools = true
+  }
+  return opts
+}
+
+const processOpts = compose(
+  allowDevtools,
+  allowAutoClose,
+  checkWidthHeight,
+  noSandboxOnTravis
+)
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
