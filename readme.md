@@ -56,16 +56,18 @@ Usage:
 
 Options:
 
-  -h, --help            print usage instructions
-  -v, --version         print version
-      --headless        run chromium in headless mode; default: true
-      --devtools        open devtools; forces !headless; default: false
-      --emulate         emulate a mobile device; fx "iPhone X"
-      --devices         list mobile devices that can be emulated
-      --width           chromium window width in px
-      --height          chromium window height in px
-      --timeout         timeout for chromium launch in ms; default: 30000
-      --wait            timeout for tap-finished in ms; default: 1000
+  -h, --help		  print usage instructions
+  -v, --version		print version
+      --headless	run chromium in headless mode; default: true
+      --devtools	open devtools; forces !headless; default: false
+      --autoclose	close chromium when program completes; default: true
+      --debug		  Add a breakpoint (debugger) before all code; default: false
+      --emulate		emulate a mobile device; fx "iPhone X"
+      --devices		list mobile devices that can be emulated
+      --width		  chromium window width in px
+      --height		chromium window height in px
+      --timeout		timeout for chromium launch in ms; default: 30000
+      --wait		  timeout for tap-finished in ms; default: 1000
 
 Examples:
 
@@ -73,6 +75,8 @@ Examples:
   browserify ./test.js | tape-puppet --devtools
   browserify ./test.js | tape-puppet --headless 0 --emulate "iPhone X"
   browserify ./test.js | tape-puppet > ./test.tap
+
+
 ```
 
 ### Debugging
@@ -100,6 +104,31 @@ browserify ./test.js | tape-puppet --devtools
 ```
 
 A Chromium head plus its DevTools will open and script execution will pause at the specified breakpoints...happy debugging!
+
+3. Run `tape-puppet` in non-autoclose mode and with DevTools:
+
+```
+browserify ./test.js | tape-puppet --autoclose false
+```
+
+A Chromium browser will open and it will stay opened until you manually
+close it, this allows you to debug the HTML with the DOM inspector even
+after all the tests have passed successfully.
+
+4. Run `tape-puppet` with `--debug`
+
+If you want to step throw all the code and figure out what's going
+on in node_modules before your tests or you want to add breakpoints
+in the chrome devtools manually without `;debugger;` in the source
+code you can open the tests with `--debug`
+
+```
+browserify ./test.js | tape-puppet --autoclose false --debug
+```
+
+This will cause the devtools to be paused before we evaluate any
+of the javascript from `browserify ./test.js` and allows you to
+use the DevTools before any code from `node_modules` is run.
 
 ### Emulation
 
