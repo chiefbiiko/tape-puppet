@@ -43,7 +43,7 @@ if (argv.help) {
           --headless\trun chromium in headless mode; default: true
           --devtools\topen devtools; forces !headless; default: false
           --autoclose\tclose chromium when program completes; default: true
-          --debug\tAdd a breakpoint (debugger) before all code; default: false
+          --debug\t\tAdd a breakpoint (debugger) before all code; default: false
           --emulate\t\temulate a mobile device; fx "iPhone X"
           --devices\t\tlist mobile devices that can be emulated
           --width\t\tchromium window width in px
