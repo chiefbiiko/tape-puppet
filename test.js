@@ -1,7 +1,14 @@
 const tape = require('tape')
 
+const plus = require('./example/plus')
+
 tape('a trivial test case', t => {
   t.notEqual(36, 44, 'that passes')
+  t.end()
+})
+
+tape('add numbers', t => {
+  t.equal(plus(2, 2), 4)
   t.end()
 })
 

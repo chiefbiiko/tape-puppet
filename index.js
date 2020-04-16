@@ -2,7 +2,11 @@ const { Transform } = require('stream')
 const { inherits } = require('util')
 const puppeteer = require('puppeteer')
 const finished = require('tap-finished')
+const fs = require('fs')
+const path = require('path')
 const pump = require('pump')
+
+const COVERAGE_FOLDER = path.join(process.cwd(), '.nyc_output')
 
 const { processOpts, sleep } = require('./utils.js')
 
@@ -35,6 +39,29 @@ TapePuppetStream.prototype._flush = async function flush (end) {
   const shutdown = async err => {
     if (!this._opts.autoclose) {
       return new Promise(() => { /* hang forever */ })
+    }
+
+    if (self._opts.cover) {
+      await new Promise(async (resolve) => {
+        const dumpCoverage = (payload) => {
+          fs.mkdirSync(COVERAGE_FOLDER, { recursive: true })
+          const cov = JSON.parse(payload)
+          fs.writeFileSync(
+            path.join(COVERAGE_FOLDER, 'coverage.json'),
+            JSON.stringify(cov, null, 2),
+            'utf8'
+          )
+          return resolve()
+        }
+
+        await page.exposeFunction('dumpCoverage', (payload) => {
+          dumpCoverage(payload)
+        })
+
+        await page.evaluate(async () => {
+          dumpCoverage(JSON.stringify(__coverage__))
+        })
+      })
     }
 
     if (browser) {

@@ -46,6 +46,7 @@ if (argv.help) {
           --debug\t\tAdd a breakpoint (debugger) before all code; default: false
           --emulate\t\temulate a mobile device; fx "iPhone X"
           --devices\t\tlist mobile devices that can be emulated
+          --cover\t\tWrite coverage information to nyc_output.
           --width\t\tchromium window width in px
           --height\t\tchromium window height in px
           --timeout\t\ttimeout for chromium launch in ms; default: 30000
