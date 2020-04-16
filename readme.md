@@ -45,7 +45,7 @@ browserify ./test.js | tape-puppet
 Run `tape-puppet -h` for usage instructions:
 
 ```
-tape-puppet v0.1.7
+tape-puppet v0.2.1
 
 A duplex stream that runs browserified tape tests with puppeteer.
 Just pipe a browserify stream into this and consume its TAP output.
@@ -56,18 +56,19 @@ Usage:
 
 Options:
 
-  -h, --help		  print usage instructions
+  -h, --help		print usage instructions
   -v, --version		print version
       --headless	run chromium in headless mode; default: true
       --devtools	open devtools; forces !headless; default: false
       --autoclose	close chromium when program completes; default: true
-      --debug		  Add a breakpoint (debugger) before all code; default: false
+      --debug		Add a breakpoint (debugger) before all code; default: false
       --emulate		emulate a mobile device; fx "iPhone X"
       --devices		list mobile devices that can be emulated
-      --width		  chromium window width in px
+      --cover		Write coverage information to nyc_output.
+      --width		chromium window width in px
       --height		chromium window height in px
       --timeout		timeout for chromium launch in ms; default: 30000
-      --wait		  timeout for tap-finished in ms; default: 1000
+      --wait		timeout for tap-finished in ms; default: 1000
 
 Examples:
 
@@ -75,7 +76,6 @@ Examples:
   browserify ./test.js | tape-puppet --devtools
   browserify ./test.js | tape-puppet --headless 0 --emulate "iPhone X"
   browserify ./test.js | tape-puppet > ./test.tap
-
 
 ```
 
@@ -129,6 +129,31 @@ browserify ./test.js | tape-puppet --autoclose false --debug
 This will cause the devtools to be paused before we evaluate any
 of the javascript from `browserify ./test.js` and allows you to
 use the DevTools before any code from `node_modules` is run.
+
+### Code coverage
+
+It's possible to use existing techniques for browser code coverage
+with `tape-puppet`.
+
+For example
+
+```
+browserify ./test.js -t browserify-istanbul | tape-puppet --cover
+```
+
+The `browserify-istanbul` transformation will instrument your bundle
+with code coverage information.
+
+The `--cover` flag for `tape-puppet` will output the code coverage
+from the `puppeteer` process into `./.nyc_output`.
+
+Now you can run `nyc report`
+
+```
+nyc report
+```
+
+To view the code coverage report of the puppeteer program.
 
 ### Emulation
 

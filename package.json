@@ -7,7 +7,9 @@
     "tape-puppet": "./cli.js"
   },
   "scripts": {
-    "test": "browserify ./test.js | node ./cli.js"
+    "test": "browserify ./test.js | node ./cli.js",
+    "cover": "browserify ./test.js --debug -t browserify-istanbul | node ./cli.js --cover && nyc report",
+    "view-cover": "opn ./coverage/lcov-report/index.html"
   },
   "repository": {
     "type": "git",
@@ -36,7 +38,10 @@
     "tap-finished": "0.0.1"
   },
   "devDependencies": {
-    "browserify": "^16.2.2",
+    "browserify": "16.5.1",
+    "browserify-istanbul": "3.0.1",
+    "opn": "1.0.1",
+    "nyc": "15.0.1",
     "tape": "^4.9.1"
   }
 }
