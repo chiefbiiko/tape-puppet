@@ -70,6 +70,8 @@ pump(
     if (err) {
       console.error(err)
       exit(1)
+    } else {
+      exit(0)
     }
   }
 )
