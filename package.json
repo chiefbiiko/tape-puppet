@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "browserify ./test.js | node ./cli.js",
-    "cover": "browserify ./test.js --debug -t browserify-istanbul | node ./cli.js --cover && nyc report",
-    "view-cover": "opn ./coverage/lcov-report/index.html"
+    "cover": "browserify ./test.js --debug -t browserify-istanbul | node ./cli.js --cover && nyc report --reporter=lcov",
+    "view-cover": "open-cli ./coverage/lcov-report/index.html"
   },
   "repository": {
     "type": "git",
@@ -34,14 +34,14 @@
   "dependencies": {
     "minimist": "^1.2.0",
     "pump": "^3.0.0",
-    "puppeteer": "5.5.0",
+    "puppeteer": "^23.4.1",
     "tap-finished": "0.0.1"
   },
   "devDependencies": {
     "browserify": "16.5.1",
-    "browserify-istanbul": "3.0.1",
-    "opn": "1.0.1",
+    "browserify-istanbul": "^3.0.1",
     "nyc": "15.0.1",
-    "tape": "^4.9.1"
+    "open-cli": "^8.0.0",
+    "tape": "^5.9.0"
   }
 }

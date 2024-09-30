@@ -10,9 +10,7 @@ const COVERAGE_FOLDER = path.join(process.cwd(), '.nyc_output')
 
 const { processOpts, sleep } = require('./utils.js')
 
-const DEVICES = require('./DEVICES.js')
-
-function TapePuppetStream (opts) {
+function TapePuppetStream(opts) {
   if (!(this instanceof TapePuppetStream)) return new TapePuppetStream(opts)
   Transform.call(this)
   this._opts = processOpts(Object.assign({}, opts || {}))
@@ -22,28 +20,33 @@ function TapePuppetStream (opts) {
 
 inherits(TapePuppetStream, Transform)
 
-TapePuppetStream.prototype._transform = function transform (chunk, _, next) {
-  this._accu = Buffer.concat([ this._accu, chunk ])
+TapePuppetStream.prototype._transform = function transform(chunk, _, next) {
+  this._accu = Buffer.concat([this._accu, chunk])
   next()
 }
 
-TapePuppetStream.prototype._flush = async function flush (end) {
+TapePuppetStream.prototype._flush = async function flush(end) {
   const self = this
 
-  if (self._opts.devices) { // list device names and quit
-    Object.keys(DEVICES).forEach(device_name => self.push(`${device_name}\n`))
+  if (self._opts.devices) {
+    // list device names and quit
+    Object.keys(puppeteer.KnownDevices).forEach(device_name =>
+      self.push(`${device_name}\n`)
+    )
     self.destroy()
     return end()
   }
 
   const shutdown = async err => {
     if (!this._opts.autoclose) {
-      return new Promise(() => { /* hang forever */ })
+      return new Promise(() => {
+        /* hang forever */
+      })
     }
 
     if (self._opts.cover) {
-      await new Promise(async (resolve) => {
-        const dumpCoverage = (payload) => {
+      await new Promise(async resolve => {
+        const dumpCoverage = payload => {
           fs.mkdirSync(COVERAGE_FOLDER, { recursive: true })
           const cov = JSON.parse(payload)
           fs.writeFileSync(
@@ -54,7 +57,7 @@ TapePuppetStream.prototype._flush = async function flush (end) {
           return resolve()
         }
 
-        await page.exposeFunction('dumpCoverage', (payload) => {
+        await page.exposeFunction('dumpCoverage', payload => {
           dumpCoverage(payload)
         })
 
@@ -97,16 +100,18 @@ TapePuppetStream.prototype._flush = async function flush (end) {
   })
   page.on('console', msg => self.push(`${msg.text()}\n`))
 
-  pump(self, finished(self._opts, async results => {
-    await shutdown()
-    self.emit('results', results)
-  }))
+  pump(
+    self,
+    finished(self._opts, async results => {
+      await shutdown()
+      self.emit('results', results)
+    })
+  )
 
   try {
-    if (DEVICES[self._opts.emulate])
-      await page.emulate(DEVICES[self._opts.emulate])
-    if (/debugger/.test(self._accu) || this._opts.debug)
-      await sleep(1000) // HACK: allow debugger engine startup
+    if (puppeteer.KnownDevices[self._opts.emulate])
+      await page.emulate(puppeteer.KnownDevices[self._opts.emulate])
+    if (/debugger/.test(self._accu) || this._opts.debug) await sleep(1000) // HACK: allow debugger engine startup
 
     if (this._opts.debug) {
       await page.evaluate('debugger;')
@@ -114,7 +119,7 @@ TapePuppetStream.prototype._flush = async function flush (end) {
 
     await page.addScriptTag({
       type: 'text/javascript',
-      content: String(self._accu)
+      content: String(self._accu),
     })
   } catch (err) {
     console.error('Could not evaluate javascript')
